@@ -28,7 +28,6 @@ let winner = null;
 
 const container = document.getElementById("container");
 const scoreDiv = document.getElementById("score");
-const scorePar = document.getElementById("scorePar");
 
 //Funkcije
 
@@ -83,16 +82,30 @@ function onButtonClicked(button) {
 
   winner = checkWinner(initialGameBoard);
 
+  console.log(initialGameBoard);
+
   if (winner) {
     console.log(winner);
     if (winner === player1.number) {
       console.log(winner);
       player1.score = player1.score + 1;
-      scorePar.innerHTML = `${player1.symbol} ${player1.score} : ${player2.score} ${player2.symbol}`;
+      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
+      winner = null;
+      initialGameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
     }
     if (winner === player2.number) {
       player2.score = player2.score + 1;
       scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
+      winner = null;
+      initialGameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
     }
     setTimeout(() => {
       createNewButtons();
