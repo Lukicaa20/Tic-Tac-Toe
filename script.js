@@ -37,6 +37,9 @@ function createGameBoard() {
   document.querySelector("#select-symbol").style.display = "none";
 
   //Buttoni
+
+  container.innerHTML = "";
+  buttons = [];
   for (let i = 0; i < 9; i++) {
     const btn = document.createElement("button");
     btn.style.width = "100px";
@@ -89,7 +92,8 @@ function onButtonClicked(button) {
     if (winner === player1.number) {
       console.log(winner);
       player1.score = player1.score + 1;
-      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
+      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} |
+       ${player2.symbol}`;
       winner = null;
       initialGameBoard = [
         [0, 0, 0],
@@ -130,8 +134,8 @@ function onButtonClicked(button) {
   }
 
   function position(number) {
-    const row = Math.floor(number / 3); // Determine the row
-    const col = number % 3; // Determine the column
+    const row = Math.floor(number / 3);
+    const col = number % 3;
     return [row, col];
   }
 }
@@ -239,7 +243,7 @@ function checkWinner(board) {
 
   if (!empty) {
     console.log("neriješeno");
-    return 0;
+    return null;
   }
 }
 
