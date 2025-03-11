@@ -16,7 +16,7 @@ let player2 = {
 let buttons = [];
 let turn = player1;
 
-let initialGameBoard = [
+let gameBoard = [
   [0, 0, 0],
   [0, 0, 0],
   [0, 0, 0],
@@ -29,70 +29,16 @@ let winner = null;
 const container = document.getElementById("container");
 const scoreDiv = document.getElementById("score");
 
-function onButtonClicked(button) {
-  button.textContent = turn.symbol;
-  button.disabled = true;
-
-  if (turn === player1) {
-    const numbers = position(buttons.indexOf(button));
-    initialGameBoard[numbers[0]][numbers[1]] = player1.number;
-
-    turn = player2;
-  } else {
-    const numbers = position(buttons.indexOf(button));
-    initialGameBoard[numbers[0]][numbers[1]] = player2.number;
-    turn = player1;
-  }
-
-  winner = checkWinner(initialGameBoard);
-
-  console.log(initialGameBoard);
-
-  if (winner) {
-    console.log(winner);
-    if (winner === player1.number) {
-      console.log(winner);
-      player1.score = player1.score + 1;
-      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} |
-       ${player2.symbol}`;
-      winner = null;
-      initialGameBoard = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-      ];
-    }
-    if (winner === player2.number) {
-      player2.score = player2.score + 1;
-      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
-      winner = null;
-      initialGameBoard = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-      ];
-    }
-    setTimeout(() => {
-      createButtons();
-    }, 2000);
-  }
-
-  function position(number) {
-    const row = Math.floor(number / 3);
-    const col = number % 3;
-    return [row, col];
-  }
-}
-
 //Event listeneri
 
 document.getElementById("select-symbol").addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
+
   console.log("provjera");
 
-  createButtons();
   setPlayers(e.target.innerHTML);
+  createButtons();
 });
 
 container.addEventListener("click", (e) => {
@@ -104,6 +50,72 @@ container.addEventListener("click", (e) => {
 
   onButtonClicked(e.target);
 });
+
+//FUNKCIJE
+
+/*
+ */
+
+function onButtonClicked(button) {
+  button.textContent = turn.symbol;
+  button.disabled = true;
+
+  const numbers = position(buttons.indexOf(button));
+
+  if (turn === player1) {
+    gameBoard[numbers[0]][numbers[1]] = player1.number;
+
+    turn = player2;
+  } else {
+    gameBoard[numbers[0]][numbers[1]] = player2.number;
+
+    turn = player1;
+  }
+
+  winner = checkWinner(gameBoard);
+
+  console.log(gameBoard);
+
+  if (winner) {
+    console.log(winner);
+    setWinner(winner);
+
+    setTimeout(() => {
+      createButtons();
+    }, 2000);
+  }
+
+  function position(number) {
+    const row = Math.floor(number / 3);
+    const col = number % 3;
+    return [row, col];
+  }
+
+  function setWinner(winner) {
+    if (winner === player1.number) {
+      console.log(winner);
+      player1.score = player1.score + 1;
+      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} |
+       ${player2.symbol}`;
+      winner = null;
+      gameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+    }
+    if (winner === player2.number) {
+      player2.score = player2.score + 1;
+      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
+      winner = null;
+      gameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+    }
+  }
+}
 
 function createButtons() {
   container.innerHTML = "";
@@ -241,7 +253,7 @@ function checkWinner(board) {
   if (!empty) {
     console.log("neriješeno");
     winner = null;
-    initialGameBoard = [
+    gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
@@ -251,4 +263,6 @@ function checkWinner(board) {
       createButtons();
     }, 2000);
   }
+
+  return null;
 }
