@@ -44,6 +44,7 @@ document.getElementById("select-symbol").addEventListener("click", (e) => {
 container.addEventListener("click", (e) => {
   e.preventDefault();
 
+  //Handle za klikanje van granica buttona, u granici containera
   if (buttons.indexOf(e.target) === -1) {
     return;
   }
@@ -53,21 +54,18 @@ container.addEventListener("click", (e) => {
 
 //FUNKCIJE
 
-/*
- */
-
 function onButtonClicked(button) {
   button.textContent = turn.symbol;
   button.disabled = true;
 
-  const numbers = position(buttons.indexOf(button));
+  const xyPosition = position(buttons.indexOf(button));
 
   if (turn === player1) {
-    gameBoard[numbers[0]][numbers[1]] = player1.number;
+    gameBoard[xyPosition[0]][xyPosition[1]] = player1.number;
 
     turn = player2;
   } else {
-    gameBoard[numbers[0]][numbers[1]] = player2.number;
+    gameBoard[xyPosition[0]][xyPosition[1]] = player2.number;
 
     turn = player1;
   }
