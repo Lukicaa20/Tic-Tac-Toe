@@ -29,45 +29,6 @@ let winner = null;
 const container = document.getElementById("container");
 const scoreDiv = document.getElementById("score");
 
-//Funkcije
-
-function createGameBoard() {
-  //Čistim container
-  document.querySelector(".info").style.display = "none";
-  document.querySelector("#select-symbol").style.display = "none";
-
-  //Buttoni
-
-  container.innerHTML = "";
-  buttons = [];
-  for (let i = 0; i < 9; i++) {
-    const btn = document.createElement("button");
-    btn.style.width = "100px";
-    btn.style.height = "100px";
-    btn.style.background = "grey";
-    btn.style.border = "none";
-    btn.style.fontSize = "50px";
-    btn.style.borderRadius = "5px";
-    buttons.push(btn);
-    container.classList.add("grid");
-    container.appendChild(btn);
-  }
-}
-
-function setPlayers(symbol) {
-  if (symbol === "X") {
-    player1.symbol = "X";
-    player2.symbol = "O";
-    player1.number = 1;
-    player2.number = 2;
-  } else {
-    player1.symbol = "O";
-    player2.symbol = "X";
-    player1.number = 2;
-    player2.number = 1;
-  }
-}
-
 function onButtonClicked(button) {
   button.textContent = turn.symbol;
   button.disabled = true;
@@ -112,31 +73,67 @@ function onButtonClicked(button) {
       ];
     }
     setTimeout(() => {
-      createNewButtons();
+      createButtons();
     }, 2000);
-  }
-
-  function createNewButtons() {
-    container.innerHTML = "";
-    buttons = [];
-    for (let i = 0; i < 9; i++) {
-      const btn = document.createElement("button");
-      btn.style.width = "100px";
-      btn.style.height = "100px";
-      btn.style.background = "grey";
-      btn.style.border = "none";
-      btn.style.fontSize = "50px";
-      btn.style.borderRadius = "5px";
-      buttons.push(btn);
-      container.classList.add("grid");
-      container.appendChild(btn);
-    }
   }
 
   function position(number) {
     const row = Math.floor(number / 3);
     const col = number % 3;
     return [row, col];
+  }
+}
+
+//Event listeneri
+
+document.getElementById("select-symbol").addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  console.log("provjera");
+
+  createButtons();
+  setPlayers(e.target.innerHTML);
+});
+
+container.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  if (buttons.indexOf(e.target) === -1) {
+    return;
+  }
+
+  onButtonClicked(e.target);
+});
+
+function createButtons() {
+  container.innerHTML = "";
+  buttons = [];
+
+  for (let i = 0; i < 9; i++) {
+    const btn = document.createElement("button");
+    btn.style.width = "100px";
+    btn.style.height = "100px";
+    btn.style.background = "grey";
+    btn.style.border = "none";
+    btn.style.fontSize = "50px";
+    btn.style.borderRadius = "5px";
+    buttons.push(btn);
+    container.classList.add("grid");
+    container.appendChild(btn);
+  }
+}
+
+function setPlayers(symbol) {
+  if (symbol === "X") {
+    player1.symbol = "X";
+    player2.symbol = "O";
+    player1.number = 1;
+    player2.number = 2;
+  } else {
+    player1.symbol = "O";
+    player2.symbol = "X";
+    player1.number = 2;
+    player2.number = 1;
   }
 }
 
@@ -243,28 +240,15 @@ function checkWinner(board) {
 
   if (!empty) {
     console.log("neriješeno");
-    return null;
+    winner = null;
+    initialGameBoard = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+
+    setTimeout(() => {
+      createButtons();
+    }, 2000);
   }
 }
-
-//Event listeneri
-
-document.getElementById("select-symbol").addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  console.log("provjera");
-
-  createGameBoard();
-  setPlayers(e.target.innerHTML);
-});
-
-container.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (buttons.indexOf(e.target) === -1) {
-    return;
-  }
-
-  let button = e.target;
-
-  onButtonClicked(button);
-});
