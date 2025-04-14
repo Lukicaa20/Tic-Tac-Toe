@@ -138,17 +138,7 @@ export function checkWinner(board, buttons) {
   }
 
   if (!empty) {
-    console.log("neriješeno");
-    winner = null;
-    gameBoard = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ];
-
-    setTimeout(() => {
-      createButtons();
-    }, 2000);
+    return "neriješeno";
   }
 
   return null;

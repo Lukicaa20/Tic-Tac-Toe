@@ -76,9 +76,24 @@ function onButtonClicked(button) {
     turn = player1;
   }
 
-  winner = checkWinner(gameBoard, buttons);
+  winner = checkWinner(gameBoard, buttons, winner, createButtons);
 
   console.log(gameBoard);
+
+  if (winner === "neriješeno") {
+    console.log("Rezultat je neriješen.");
+    winner = null;
+
+    setTimeout(() => {
+      gameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+      createButtons(container, buttons);
+    }, 2000);
+    return;
+  }
 
   if (winner) {
     console.log(winner);
