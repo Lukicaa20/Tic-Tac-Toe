@@ -143,3 +143,28 @@ export function checkWinner(board, buttons) {
 
   return null;
 }
+
+export function setWinner(winner, player1, player2, scorePar, gameBoard) {
+  if (winner === player1.number) {
+    console.log(winner);
+    player1.score = player1.score + 1;
+    scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} |
+     ${player2.symbol}`;
+    winner = null;
+    gameBoard = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+  }
+  if (winner === player2.number) {
+    player2.score = player2.score + 1;
+    scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
+    winner = null;
+    gameBoard = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+  }
+}

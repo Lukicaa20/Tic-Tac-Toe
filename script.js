@@ -4,6 +4,7 @@ import {
   createButtons,
   setPlayers,
   checkWinner,
+  setWinner,
   position,
 } from "./functions.js";
 
@@ -58,8 +59,6 @@ container.addEventListener("click", (e) => {
   onButtonClicked(e.target);
 });
 
-//FUNKCIJE
-
 function onButtonClicked(button) {
   button.textContent = turn.symbol;
   button.disabled = true;
@@ -97,35 +96,10 @@ function onButtonClicked(button) {
 
   if (winner) {
     console.log(winner);
-    setWinner(winner);
+    setWinner(winner, player1, player2, scorePar, gameBoard);
 
     setTimeout(() => {
       createButtons(container, buttons);
     }, 2000);
-  }
-
-  function setWinner(winner) {
-    if (winner === player1.number) {
-      console.log(winner);
-      player1.score = player1.score + 1;
-      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} |
-       ${player2.symbol}`;
-      winner = null;
-      gameBoard = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-      ];
-    }
-    if (winner === player2.number) {
-      player2.score = player2.score + 1;
-      scorePar.innerHTML = `${player1.symbol} | ${player1.score} : ${player2.score} | ${player2.symbol}`;
-      winner = null;
-      gameBoard = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-      ];
-    }
   }
 }
